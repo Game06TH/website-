@@ -5,3 +5,10 @@ body {
 h2 {
     color: #343a40;
 }
+.card-title {
+    font-weight: bold;
+}
+.card-text {
+    font-size: 14px;
+    color: #444;
+}
