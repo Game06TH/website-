@@ -18,3 +18,18 @@ def get_products_by_category():
 
     return grouped
 
+def get_product_by_id(product_id):
+    try:
+        conn = mysql.connector.connect(**db_config)
+        cursor = conn.cursor(dictionary=True)
+        cursor.execute("SELECT * FROM products WHERE id = %s", (product_id,))
+        product = cursor.fetchone()
+        return product
+    except mysql.connector.Error as err:
+        print("เกิดข้อผิดพลาด:", err)
+        return None
+    finally:
+        if cursor: cursor.close()
+        if conn: conn.close()
+
+
