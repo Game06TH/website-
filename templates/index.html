@@ -6,89 +6,22 @@
 
 <h2 class="text-center mb-4 mt-5">สินค้าคอม DIY แยกชิ้น</h2>
 
-<!-- CPU -->
-<h4 class="text-primary mt-4">🧠 CPU</h4>
-<div class="row">
-  <!-- CPU 1 -->
-  <div class="col-md-4 col-sm-6 mb-3">
-    <div class="card h-100">
-      <img src="{{ url_for('static', filename='images/cpu1.webp') }}" class="card-img-top" alt="CPU 1">
-      <div class="card-body">
-        <h5 class="card-title">Intel Core i5-10400F</h5>
-        <p class="card-text">6-Core 12-Thread, LGA1200</p>
-        <button class="btn btn-success w-100">ดูรายละเอียด</button>
+{% for category, items in grouped_products.items() %}
+  <h3 class="text-primary">{{ category }}</h3>
+  <div class="row">
+    {% for product in items %}
+    <div class="col-md-4 mb-3">
+      <div class="card h-100">
+        <img src="{{ url_for('static', filename='images/' ~ product.image) }}" class="card-img-top">
+        <div class="card-body">
+          <h5>{{ product.name }}</h5>
+          <p>{{ product.description }}</p>
+          <p><strong>{{ product.price }} บาท</strong></p>
+        </div>
       </div>
     </div>
+    {% endfor %}
   </div>
+{% endfor %}
 
-  <!-- CPU 2 -->
-  <div class="col-md-4 col-sm-6 mb-3">
-    <div class="card h-100">
-      <img src="{{ url_for('static', filename='images/cpu2.webp') }}" class="card-img-top" alt="CPU 2">
-      <div class="card-body">
-        <h5 class="card-title">AMD Ryzen 5 5600X</h5>
-        <p class="card-text">6-Core 12-Thread, AM4 Socket</p>
-        <button class="btn btn-success w-100">ดูรายละเอียด</button>
-      </div>
-    </div>
-  </div>
-
-  <!-- CPU 3 -->
-  <div class="col-md-4 col-sm-6 mb-3">
-    <div class="card h-100">
-      <img src="{{ url_for('static', filename='images/cpu3.jpg') }}" class="card-img-top" alt="CPU 3">
-      <div class="card-body">
-        <h5 class="card-title">Intel Core i7-11700K</h5>
-        <p class="card-text">8-Core 16-Thread, LGA1200</p>
-        <button class="btn btn-success w-100">ดูรายละเอียด</button>
-      </div>
-    </div>
-  </div>
-</div>
-
-
-<!-- RAM -->
-<h4 class="text-primary mt-4">🧬 RAM</h4>
-<div class="row">
-  <div class="col-md-4 mb-3">
-    <div class="card h-100">
-      <img src="{{ url_for('static', filename='images/ram1.webp') }}" class="card-img-top" alt="RAM 1">
-      <div class="card-body">
-        <h5 class="card-title">Corsair Vengeance DDR4 16GB</h5>
-        <p class="card-text">ความเร็ว 3200MHz</p>
-        <button class="btn btn-success w-100">ดูรายละเอียด</button>
-      </div>
-    </div>
-  </div>
-</div>
-
-<!-- SSD -->
-<h4 class="text-primary mt-4">💾 SSD</h4>
-<div class="row">
-  <div class="col-md-4 mb-3">
-    <div class="card h-100">
-      <img src="{{ url_for('static', filename='images/ssd1.jpg') }}" class="card-img-top" alt="SSD 1">
-      <div class="card-body">
-        <h5 class="card-title">Kingston NV2 M.2 NVMe 500GB</h5>
-        <p class="card-text">อ่านสูงสุด 3500MB/s</p>
-        <button class="btn btn-success w-100">ดูรายละเอียด</button>
-      </div>
-    </div>
-  </div>
-</div>
-
-<!-- Mainboard -->
-<h4 class="text-primary mt-4">🧩 Mainboard</h4>
-<div class="row">
-  <div class="col-md-4 mb-3">
-    <div class="card h-100">
-      <img src="{{ url_for('static', filename='images/mb1.jpg') }}" class="card-img-top" alt="Mainboard">
-      <div class="card-body">
-        <h5 class="card-title">ASUS PRIME B460M-A</h5>
-        <p class="card-text">รองรับ Intel Gen10 / DDR4</p>
-        <button class="btn btn-success w-100">ดูรายละเอียด</button>
-      </div>
-    </div>
-  </div>
-</div>
 {% endblock %}
