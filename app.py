@@ -1,7 +1,8 @@
-from flask import Flask, render_template, abort
+from flask import Flask, render_template, abort, request, redirect, url_for, session
 from models.product_model import get_products_by_category, get_product_by_id
 
 app = Flask(__name__)
+app.secret_key = 'myshop123456'  # จำเป็นสำหรับ session
 
 @app.route('/')
 def index():
@@ -16,8 +17,13 @@ def product_detail(product_id):
     else:
         abort(404)
 
+@app.route('/cart/add/<int:product_id>', methods=['POST'])
+def add_to_cart(product_id):
+    if 'cart' not in session:
+        session['cart'] = []
+
+    session['cart'].append(product_id)
+    return redirect(url_for('product_detail', product_id=product_id))
 
 if __name__ == '__main__':
     app.run(debug=True)
-
-
