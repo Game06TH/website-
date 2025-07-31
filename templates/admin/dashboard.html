@@ -1,0 +1,18 @@
+{% extends "base.html" %}
+{% block content %}
+<div class="container mt-5">
+  <h3>Admin Dashboard</h3>
+
+<!-- ปุ่มจัดการสินค้า -->
+<a href="{{ url_for('manage_products') }}" class="btn btn-success me-2">จัดการสินค้า</a>
+
+<!-- ปุ่มออกจากระบบ -->
+<a href="{{ url_for('admin_logout') }}" class="btn btn-danger me-2">ออกจากระบบ</a>
+
+<!-- ปุ่มคำสั่งซื้อ -->
+<a href="{{ url_for('admin_orders') }}" class="btn btn-primary">
+  📦 คำสั่งซื้อ
+</a>
+
+</div>
+{% endblock %}

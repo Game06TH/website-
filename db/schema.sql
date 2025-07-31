@@ -23,3 +23,8 @@ CREATE TABLE order_items (
   price DECIMAL(10,2),
   FOREIGN KEY (order_id) REFERENCES orders(id)
 );
+
+ALTER TABLE products ADD COLUMN image VARCHAR(255);
+
+INSERT INTO admins (username, password)
+VALUES ('game153', '12345');
