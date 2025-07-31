@@ -44,7 +44,7 @@
 
     <div class="d-flex justify-content-between">
       <a href="{{ url_for('clear_cart') }}" class="btn btn-warning">ล้างตะกร้า</a>
-      <a href="#" class="btn btn-success">ดำเนินการสั่งซื้อ</a>
+      <a href="{{ url_for('checkout') }}" class="btn btn-success">ดำเนินการสั่งซื้อ</a>
     </div>
   {% else %}
     <p class="text-center text-muted">ยังไม่มีสินค้าถูกเพิ่มในตะกร้า</p>

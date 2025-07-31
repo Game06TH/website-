@@ -1,4 +1,5 @@
 from flask import Flask, render_template, request, redirect, url_for, session, abort
+from config import db_config
 from models.product_model import get_products_by_category, get_product_by_id
 
 app = Flask(__name__)
@@ -75,6 +76,72 @@ def clear_cart():
 def reset_session():
     session.clear()
     return 'Session ถูกล้างแล้ว'
+
+@app.route('/checkout', methods=['GET', 'POST'])
+def checkout():
+    cart = session.get('cart', {})
+    if not cart:
+        return redirect(url_for('cart'))
+
+    if request.method == 'POST':
+        name = request.form['name']
+        address = request.form['address']
+        phone = request.form['phone']
+
+        products = []
+        total = 0
+        for str_id, item in cart.items():
+            product = get_product_by_id(int(str_id))
+            if product:
+                quantity = item['quantity']
+                subtotal = product['price'] * quantity
+                total += subtotal
+                products.append({
+                    'id': product['id'],
+                    'price': product['price'],
+                    'quantity': quantity
+                })
+
+        # ✅ แก้ตรงนี้
+        conn = None
+        cursor = None
+
+        try:
+            import mysql.connector
+            conn = mysql.connector.connect(**db_config)  # ใช้ **db_config (ไม่ใช่ db_config ธรรมดา)
+            cursor = conn.cursor()
+
+            cursor.execute(
+                "INSERT INTO orders (customer_name, customer_address, customer_phone, total_price) VALUES (%s, %s, %s, %s)",
+                (name, address, phone, total)
+            )
+            order_id = cursor.lastrowid
+
+            for item in products:
+                cursor.execute(
+                    "INSERT INTO order_items (order_id, product_id, quantity, price) VALUES (%s, %s, %s, %s)",
+                    (order_id, item['id'], item['quantity'], item['price'])
+                )
+
+            conn.commit()
+        except Exception as e:
+            print("❌ Error saving order:", e)
+            return "เกิดข้อผิดพลาดระหว่างบันทึกคำสั่งซื้อ", 500
+        finally:
+            if cursor:
+                cursor.close()
+            if conn:
+                conn.close()
+
+        session.pop('cart', None)
+        return redirect(url_for('order_success'))
+
+    return render_template('checkout.html')
+
+@app.route('/order_success', endpoint='order_success')
+def show_order_success():
+    return render_template('order_success.html')
+
 
 
 if __name__ == '__main__':
