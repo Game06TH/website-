@@ -1,60 +1,82 @@
 {% extends "base.html" %}
 {% block content %}
-<div class="container mt-4">
-  <h3>จัดการสินค้า</h3>
+<div class="container mt-5">
+  <h3 class="heading-title">🛠️ จัดการสินค้า</h3>
 
-  <!-- แบบฟอร์มเพิ่มสินค้า -->
-  <form method="post" action="{{ url_for('admin_add_product') }}" class="mb-4" enctype="multipart/form-data">
-    <div class="row">
-      <div class="col">
-        <input type="text" name="name" placeholder="ชื่อสินค้า" class="form-control" required>
-      </div>
-      <div class="col">
-        <input type="number" name="price" placeholder="ราคา" class="form-control" required>
-      </div>
-      <div class="col">
-        <input type="text" name="category" placeholder="หมวดหมู่" class="form-control">
-      </div>
-      <div class="col">
-        <input type="file" name="image" class="form-control">
-      </div>
-      <div class="col">
-        <button type="submit" class="btn btn-primary">เพิ่ม</button>
-      </div>
+<!-- ส่วนเพิ่มสินค้า -->
+<form method="post" action="{{ url_for('admin_add_product') }}" enctype="multipart/form-data" class="product-form">
+  <div class="row g-2 align-items-end">
+    <div class="col-md">
+      <label class="form-label">ชื่อสินค้า</label>
+      <input type="text" name="name" class="form-control" required>
     </div>
-  </form>
+    <div class="col-md">
+      <label class="form-label">ราคา</label>
+      <input type="number" name="price" class="form-control" required>
+    </div>
+    <div class="col-md">
+      <label class="form-label">หมวดหมู่</label>
+      <input type="text" name="category" class="form-control">
+    </div>
+    <div class="col-md">
+      <label class="form-label">รายละเอียด</label>
+      <input type="text" name="description" class="form-control">
+    </div>
+    <div class="col-md">
+      <label class="form-label">เลือกรูปภาพ</label>
+      <input type="file" name="image" class="form-control">
+    </div>
+    <div class="col-md-auto">
+      <button type="submit" class="btn btn-primary px-4">➕ เพิ่ม</button>
+    </div>
+  </div>
+</form>
 
-  <!-- ตารางแสดงสินค้า -->
-  <table class="table table-bordered">
-    <tr>
-      <th>ชื่อ</th>
-      <th>ราคา</th>
-      <th>หมวดหมู่</th>
-      <th>รูป</th>
-      <th>จัดการ</th>
-    </tr>
-    {% for p in products %}
-    <tr>
-      <form method="post" action="{{ url_for('admin_update_product', product_id=p.id) }}">
-        <td><input name="name" value="{{ p.name }}" class="form-control"></td>
-        <td><input name="price" value="{{ p.price }}" class="form-control"></td>
-        <td><input name="category" value="{{ p.category }}" class="form-control"></td>
-        <td>
-          {% if p.image %}
-            <img src="{{ url_for('static', filename='uploads/' ~ p.image) }}" width="60">
-          {% else %}
-            ไม่มีรูป
-          {% endif %}
-        </td>
-        <td>
-          <button type="submit" class="btn btn-sm btn-warning">แก้ไข</button>
-      </form>
-      <form method="post" action="{{ url_for('admin_delete_product', product_id=p.id) }}" style="display:inline;">
-          <button type="submit" class="btn btn-sm btn-danger" onclick="return confirm('ยืนยันลบ?')">ลบ</button>
-      </form>
-        </td>
-    </tr>
-    {% endfor %}
-  </table>
+
+  <!-- ตารางสินค้า -->
+  <div class="table-responsive product-table">
+    <table class="table table-bordered align-middle text-center">
+      <thead class="table-dark">
+        <tr>
+          <th>ชื่อ</th>
+          <th>รายละเอียด</th>
+          <th>ราคา</th>
+          <th>หมวดหมู่</th>
+          <th>รูป</th>
+          <th>จัดการ</th>
+        </tr>
+      </thead>
+        <tbody>
+          {% for p in products %}
+          <tr>
+            <form method="post" enctype="multipart/form-data" action="{{ url_for('admin_update_product', product_id=p.id) }}">
+              <td><input name="name" value="{{ p.name }}" class="form-control"></td>
+              <td><input name="description" value="{{ p.description }}" class="form-control"></td>
+              <td><input name="price" value="{{ p.price }}" class="form-control"></td>
+              <td><input name="category" value="{{ p.category }}" class="form-control"></td>
+              <td>
+                {% if p.image %}
+                  <img src="{{ url_for('static', filename='images/' ~ p.image) }}" alt="product" class="product-image mb-2">
+                {% else %}
+                  <span class="text-muted">ไม่มีรูป</span>
+                {% endif %}
+                <input type="file" name="image" class="form-control mt-1">
+                <input type="hidden" name="old_image" value="{{ p.image }}">
+              </td>
+              <td>
+                <div class="action-buttons d-flex flex-column gap-1">
+                  <button type="submit" class="btn btn-warning btn-sm">แก้ไข</button>
+            </form> <!-- ปิดฟอร์มอัปเดตที่นี่ -->
+
+            <form method="post" action="{{ url_for('admin_delete_product', product_id=p.id) }}">
+              <button type="submit" class="btn btn-danger btn-sm" onclick="return confirm('ยืนยันลบ?')">ลบ</button>
+            </form>
+                </div>
+              </td>
+          </tr>
+          {% endfor %}
+        </tbody>
+    </table>
+  </div>
 </div>
 {% endblock %}

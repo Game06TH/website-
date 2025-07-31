@@ -1,18 +1,28 @@
 {% extends "base.html" %}
 {% block content %}
-<div class="container mt-5">
-  <h3>Admin Dashboard</h3>
+<div class="container py-5">
+  <div class="text-center mb-4">
+    <h2 class="fw-bold">📊 Admin Dashboard</h2>
+    <p class="text-muted">ระบบจัดการสินค้าและคำสั่งซื้อสำหรับผู้ดูแลระบบ</p>
+  </div>
 
-<!-- ปุ่มจัดการสินค้า -->
-<a href="{{ url_for('manage_products') }}" class="btn btn-success me-2">จัดการสินค้า</a>
+  <div class="d-flex flex-wrap justify-content-center gap-3">
 
-<!-- ปุ่มออกจากระบบ -->
-<a href="{{ url_for('admin_logout') }}" class="btn btn-danger me-2">ออกจากระบบ</a>
+    <!-- ปุ่มจัดการสินค้า -->
+    <a href="{{ url_for('manage_products') }}" class="btn btn-success btn-lg shadow rounded-pill px-4">
+      🛠️ จัดการสินค้า
+    </a>
 
-<!-- ปุ่มคำสั่งซื้อ -->
-<a href="{{ url_for('admin_orders') }}" class="btn btn-primary">
-  📦 คำสั่งซื้อ
-</a>
+    <!-- ปุ่มคำสั่งซื้อ -->
+    <a href="{{ url_for('admin_orders') }}" class="btn btn-primary btn-lg shadow rounded-pill px-4">
+      📦 คำสั่งซื้อ
+    </a>
 
+    <!-- ปุ่มออกจากระบบ -->
+    <a href="{{ url_for('admin_logout') }}" class="btn btn-danger btn-lg shadow rounded-pill px-4">
+      🔒 ออกจากระบบ
+    </a>
+
+  </div>
 </div>
 {% endblock %}

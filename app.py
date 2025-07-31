@@ -1,10 +1,11 @@
 from flask import Flask, render_template, request, redirect, url_for, session, flash, abort
-from models.product_model import get_all_products, add_product, update_product, delete_product, get_products_by_category, get_product_by_id
+from models.product_model import get_all_products, add_product, update_product, delete_product, get_products_by_category, get_product_by_id , get_product_image
 from config import db_config
 import os
 import mysql.connector
 from werkzeug.utils import secure_filename
 from werkzeug.security import check_password_hash
+
 
 
 app = Flask(__name__)
@@ -22,7 +23,9 @@ def allowed_file(filename):
 @app.route('/')
 def index():
     grouped_products = get_products_by_category()
+    print(grouped_products)  # ตรวจสอบข้อมูลว่ามาถึง template ไหม
     return render_template('index.html', grouped_products=grouped_products)
+
 
 @app.route('/product/<int:product_id>')
 def product_detail(product_id):
@@ -189,36 +192,73 @@ def manage_products():
 def admin_add_product():
     if not session.get('admin_logged_in'):
         return redirect(url_for('admin_login'))
+
     name = request.form['name']
+    description = request.form.get('description', '')
     price = float(request.form['price'])
     category = request.form['category']
     file = request.files['image']
     image_filename = ''
+
     if file and allowed_file(file.filename):
         filename = secure_filename(file.filename)
-        image_path = os.path.join(app.config['UPLOAD_FOLDER'], filename)
+        image_path = os.path.join('static/images', filename)  # เปลี่ยน path จาก uploads ➜ static/images
         file.save(image_path)
         image_filename = filename
-    add_product(name, price, category, image_filename)
+
+    add_product(name, price, category, image_filename, description)
     return redirect(url_for('manage_products'))
 
 @app.route('/admin/product/update/<int:product_id>', methods=['POST'])
 def admin_update_product(product_id):
     if not session.get('admin_logged_in'):
         return redirect(url_for('admin_login'))
+
     name = request.form['name']
+    description = request.form.get('description', '')  # เพิ่มอ่าน description
     price = float(request.form['price'])
     category = request.form['category']
-    image = request.form['image']
-    update_product(product_id, name, price, category, image)
+    image_filename = request.form.get('old_image')  # ใช้ชื่อภาพเดิมเป็นค่า default
+
+    # รับไฟล์ใหม่ (ถ้ามีการแนบไฟล์)
+    file = request.files.get('image')
+    if file and file.filename != '' and allowed_file(file.filename):
+        filename = secure_filename(file.filename)
+        image_path = os.path.join('static/images', filename)
+        file.save(image_path)
+        image_filename = filename  # ใช้ชื่อใหม่แทนที่ชื่อเดิม
+
+    # อัปเดตสินค้าพร้อม description
+    update_product(product_id, name, price, category, image_filename, description)
     return redirect(url_for('manage_products'))
+
+
+
 
 @app.route('/admin/product/delete/<int:product_id>', methods=['POST'])
 def admin_delete_product(product_id):
     if not session.get('admin_logged_in'):
         return redirect(url_for('admin_login'))
-    delete_product(product_id)
+
+    try:
+        # ดึงชื่อไฟล์ภาพก่อนลบ (สมมติคุณมีฟังก์ชันนี้)
+        image_filename = get_product_image(product_id)
+        delete_product(product_id)
+
+        # ลบไฟล์ภาพจากโฟลเดอร์ static/images/
+        if image_filename:
+            image_path = os.path.join('static/images', image_filename)
+            if os.path.exists(image_path):
+                os.remove(image_path)
+
+    except Exception as e:
+        flash('เกิดข้อผิดพลาดในการลบสินค้า', 'danger')
+        print(e)
+
     return redirect(url_for('manage_products'))
+
+
+
 
 # ✅ หน้าแสดงคำสั่งซื้อทั้งหมด
 @app.route('/admin/orders')

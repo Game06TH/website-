@@ -1,34 +1,40 @@
 {% extends 'base.html' %}
 {% block content %}
 <div class="container mt-4">
-  <h3>รายการคำสั่งซื้อ</h3>
-  <table class="table table-bordered">
-    <thead>
-      <tr>
-        <th>รหัส</th>
-        <th>ชื่อผู้สั่ง</th>
-        <th>ที่อยู่</th>
-        <th>เบอร์โทร</th>
-        <th>ราคารวม</th>
-        <th>จัดการ</th>
-      </tr>
-    </thead>
-    <tbody>
-      {% for order in orders %}
-      <tr>
-        <td>{{ order.id }}</td>
-        <td>{{ order.customer_name }}</td>
-        <td>{{ order.customer_address }}</td>
-        <td>{{ order.customer_phone }}</td>
-        <td>{{ order.total_price }}</td>
-        <td>
-          <form action="{{ url_for('admin_delete_order', order_id=order.id) }}" method="post" onsubmit="return confirm('ยืนยันลบคำสั่งซื้อ?')">
-            <button class="btn btn-danger btn-sm">ลบ</button>
-          </form>
-        </td>
-      </tr>
-      {% endfor %}
-    </tbody>
-  </table>
+  <h3 class="mb-4 text-primary fw-bold">📄 รายการคำสั่งซื้อ</h3>
+
+  <div class="table-responsive">
+    <table class="table table-hover table-striped align-middle shadow-sm rounded">
+      <thead class="table-light">
+        <tr>
+          <th scope="col">รหัส</th>
+          <th scope="col">ชื่อผู้สั่ง</th>
+          <th scope="col">ที่อยู่</th>
+          <th scope="col">เบอร์โทร</th>
+          <th scope="col">ราคารวม</th>
+          <th scope="col">จัดการ</th>
+        </tr>
+      </thead>
+      <tbody>
+        {% for order in orders %}
+        <tr>
+          <td>{{ order.id }}</td>
+          <td>{{ order.customer_name }}</td>
+          <td>{{ order.customer_address }}</td>
+          <td>{{ order.customer_phone }}</td>
+          <td class="text-end">
+            <span class="fw-semibold">{{ "%.2f"|format(order.total_price) }}</span>
+            <span class="text-muted ms-1">฿</span>
+          </td>
+          <td>
+            <form action="{{ url_for('admin_delete_order', order_id=order.id) }}" method="post" onsubmit="return confirm('ยืนยันลบคำสั่งซื้อ?')">
+              <button class="btn btn-outline-danger btn-sm px-3">ลบ</button>
+            </form>
+          </td>
+        </tr>
+        {% endfor %}
+      </tbody>
+    </table>
+  </div>
 </div>
 {% endblock %}
