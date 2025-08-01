@@ -257,9 +257,6 @@ def admin_delete_product(product_id):
 
     return redirect(url_for('manage_products'))
 
-
-
-
 # ✅ หน้าแสดงคำสั่งซื้อทั้งหมด
 @app.route('/admin/orders')
 def admin_orders():
@@ -309,4 +306,5 @@ def admin_delete_order(order_id):
 
 
 if __name__ == '__main__':
-    app.run(debug=True)
+        port = int(os.environ.get('PORT', 5000))
+        app.run(debug=False, host='0.0.0.0', port=port)
