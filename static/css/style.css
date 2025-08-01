@@ -1,101 +1,24 @@
-body {
-    background-color: #f8f9fa;
-}
-
-h2 {
-    color: #343a40;
-}
-.card-title {
-    font-weight: bold;
-}
-.card-text {
-    font-size: 14px;
-    color: #444;
-}
+/* === พื้นหลังและตัวอักษรหลัก === */
 body {
   background: linear-gradient(to right, #e0ecff, #ffffff);
-}
-
-.login-box {
-  border: 1px solid #ddd;
-  background-color: #ffffff;
-}
-
-@media (max-width: 768px) {
-  .login-box {
-    padding: 2rem 1.5rem;
-  }
-}
-body {
-  background: #f8fbff;
-}
-
-.btn {
-  font-size: 1.1rem;
-  transition: all 0.3s ease-in-out;
-}
-
-.btn:hover {
-  transform: translateY(-2px);
-  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+  font-family: 'Prompt', sans-serif;
+  background-color: #f5f7fa;
 }
 
 h2 {
   color: #2c3e50;
 }
-.heading-title {
-  font-weight: bold;
-  color: #0d6efd;
-  margin-bottom: 1.5rem;
-}
-
-.product-form {
-  background-color: #f8f9fa;
-  padding: 20px;
-  border-radius: 10px;
-  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.06);
-  margin-bottom: 30px;
-}
-
-.product-table {
-  border-radius: 10px;
-  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
-  overflow: hidden;
-}
-
-.product-image {
-  width: 60px;
-  height: 60px;
-  object-fit: contain;
-  border-radius: 6px;
-  box-shadow: 0 0 3px rgba(0, 0, 0, 0.1);
-}
-
-.action-buttons {
-  display: flex;
-  justify-content: center;
-  gap: 8px;
-}
-table th, table td {
-  vertical-align: middle !important;
-}
-
-.table thead th {
-  font-weight: bold;
-  font-size: 16px;
-}
-
-.btn-outline-danger {
-  border-width: 1.5px;
-}
 
 h3 {
   font-family: 'Prompt', sans-serif;
+  font-weight: bold;
+  color: #0d6efd;
+  margin-bottom: 1.5rem;
+  border-bottom: 2px solid #ccc;
+  padding-bottom: 5px;
 }
-td.text-end span {
-  font-size: 15px;
-}
-/* ✅ ตกแต่ง Navbar */
+
+/* === Navbar === */
 .custom-navbar {
   background: linear-gradient(to right, #1f1f1f, #2c2c2c);
   border-bottom: 3px solid #0dcaf0;
@@ -115,88 +38,21 @@ td.text-end span {
   transform: scale(1.05);
   opacity: 0.9;
 }
-/* ลดขนาดการ์ดแสดงสินค้า */
-.card img {
-  max-height: 220px;
-  object-fit: contain;
-}
 
-/* เพิ่ม margin และ padding ทั่วไป */
-body {
-  background-color: #f9fcff;
-}
-body {
-  background-color: #f5f7fa;
-}
-
-.card-title {
-  font-weight: bold;
+/* === ปุ่ม === */
+.btn {
   font-size: 1.1rem;
+  transition: all 0.3s ease-in-out;
 }
 
-h3 {
-  border-bottom: 2px solid #ccc;
-  padding-bottom: 5px;
-}
-body {
-  background-color: #f8f9fa;
-}
-
-.card:hover {
-  transform: translateY(-4px);
-  transition: all 0.3s ease;
-  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.08);
-}
-.product-image {
-  max-width: 100%;
-  max-height: 450px;     /* เพิ่มจากเดิม 400px */
-  width: auto;
-  height: auto;
-  object-fit: contain;
-  border: 1px solid #dee2e6;
-  border-radius: 10px;
-  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.05);
-  margin-bottom: 20px;
-}
-
-
-.product-title {
-  font-weight: bold;
-  color: #0d6efd; /* Bootstrap primary */
-}
-
-.product-description {
-  color: #6c757d; /* Bootstrap muted */
-  margin-bottom: 1rem;
-}
-
-.product-price {
-  color: #212529;
-  margin-bottom: 1.5rem;
-}
-
-.product-price span {
-  color: #dc3545; /* Bootstrap danger */
-  font-weight: bold;
-}
-@media (max-width: 768px) {
-  .product-image {
-    max-height: 300px;
-    margin-bottom: 15px;
-  }
-}
-table th, table td {
-  vertical-align: middle;
-  font-size: 16px;
-}
-
-.table-responsive {
-  border-radius: 10px;
-  overflow-x: auto;
+.btn:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
 }
 
 .btn-outline-primary, .btn-outline-danger {
   border-radius: 6px;
+  border-width: 1.5px;
 }
 
 @media (max-width: 576px) {
@@ -210,4 +66,120 @@ table th, table td {
     flex-direction: column;
     gap: 10px;
   }
+}
+
+/* === ฟอร์มเพิ่ม/แก้ไขสินค้า === */
+.product-form {
+  background-color: #f8f9fa;
+  padding: 20px;
+  border-radius: 10px;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.06);
+  margin-bottom: 30px;
+}
+
+/* === ตารางสินค้า === */
+.table-responsive {
+  border-radius: 10px;
+  overflow-x: auto;
+}
+
+table th, table td {
+  vertical-align: middle;
+  font-size: 16px;
+}
+
+.table thead th {
+  font-weight: bold;
+  font-size: 16px;
+}
+
+.action-buttons {
+  display: flex;
+  justify-content: center;
+  gap: 8px;
+}
+
+/* === กล่องล็อกอิน (login-box) === */
+.login-box {
+  border: 1px solid #ddd;
+  background-color: #ffffff;
+}
+
+@media (max-width: 768px) {
+  .login-box {
+    padding: 2rem 1.5rem;
+  }
+}
+
+/* === การ์ดสินค้า (เช่นหน้าแสดงสินค้า) === */
+.card img {
+  max-height: 220px;
+  object-fit: contain;
+}
+
+.card-title {
+  font-weight: bold;
+  font-size: 1.1rem;
+}
+
+.card-text {
+  font-size: 14px;
+  color: #444;
+}
+
+.card:hover {
+  transform: translateY(-4px);
+  transition: all 0.3s ease;
+  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.08);
+}
+
+/* === รูปภาพสินค้า === */
+.product-image {
+  width: 60px;
+  height: 60px;
+  object-fit: contain;
+  border-radius: 6px;
+  box-shadow: 0 0 3px rgba(0, 0, 0, 0.1);
+  max-width: 100%;
+  max-height: 450px;
+  border: 1px solid #dee2e6;
+  margin-bottom: 20px;
+}
+
+.product-image-a {
+  max-width: 100%;
+  max-height: 500px;
+  object-fit: contain;
+  border: 1px solid #dee2e6;
+  border-radius: 10px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.05);
+  margin-bottom: 20px;
+}
+
+@media (max-width: 768px) {
+  .product-image {
+    max-height: 300px;
+    margin-bottom: 15px;
+  }
+}
+
+/* === ข้อมูลสินค้า === */
+.product-title {
+  font-weight: bold;
+  color: #0d6efd;
+}
+
+.product-description {
+  color: #6c757d;
+  margin-bottom: 1rem;
+}
+
+.product-price {
+  color: #212529;
+  margin-bottom: 1.5rem;
+}
+
+.product-price span {
+  color: #dc3545;
+  font-weight: bold;
 }
