@@ -88,3 +88,10 @@ def get_product_image(product_id):
         if cursor: cursor.close()
         if conn: conn.close()
 
+def get_all_products_1():
+    conn = mysql.connector.connect(**db_config)
+    cursor = conn.cursor(dictionary=True)
+    cursor.execute("SELECT * FROM products ORDER BY id DESC")
+    result = cursor.fetchall()
+    conn.close()
+    return result

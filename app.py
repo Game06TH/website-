@@ -1,10 +1,12 @@
 from flask import Flask, render_template, request, redirect, url_for, session, flash, abort
-from models.product_model import get_all_products, add_product, update_product, delete_product, get_products_by_category, get_product_by_id , get_product_image
+from models.product_model import get_all_products, add_product, update_product, delete_product, get_products_by_category, get_product_by_id , get_product_image , get_all_products_1
 from config import db_config
 import os
 import mysql.connector
 from werkzeug.utils import secure_filename
 from werkzeug.security import check_password_hash
+from flask import render_template, request
+
 
 
 
@@ -13,7 +15,7 @@ app.secret_key = 'myshop123456'
 
 # ----------- ตั้งค่าอัปโหลดรูป -----------
 UPLOAD_FOLDER = 'static/uploads'
-ALLOWED_EXTENSIONS = {'png', 'jpg', 'jpeg', 'gif'}
+ALLOWED_EXTENSIONS = {'png', 'jpg', 'jpeg', 'gif', 'webp'}
 app.config['UPLOAD_FOLDER'] = UPLOAD_FOLDER
 
 def allowed_file(filename):
@@ -22,9 +24,21 @@ def allowed_file(filename):
 # ----------- USER ROUTES -----------
 @app.route('/')
 def index():
-    grouped_products = get_products_by_category()
-    print(grouped_products)  # ตรวจสอบข้อมูลว่ามาถึง template ไหม
+    search_category = request.args.get('category', '').strip().lower()
+    all_products = get_all_products_1()
+
+    # กลุ่มสินค้าแบบ manual ด้วย category
+    grouped_products = {}
+    for product in all_products:
+        category = product['category'].strip()
+        if search_category and search_category not in category.lower():
+            continue  # ข้ามถ้าไม่ตรงกับที่ค้นหา
+        if category not in grouped_products:
+            grouped_products[category] = []
+        grouped_products[category].append(product)
+
     return render_template('index.html', grouped_products=grouped_products)
+
 
 
 @app.route('/product/<int:product_id>')

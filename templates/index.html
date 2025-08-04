@@ -1,7 +1,22 @@
 {% extends 'base.html' %}
 
 {% block content %}
+
+<!-- ช่องค้นหา (อยู่นอก container หลัก) -->
+<div class="container mt-4">
+  <form method="get" action="{{ url_for('index') }}" class="row justify-content-center">
+    <div class="col-md-4 col-sm-8 col-10">
+      <input type="text" name="category" class="form-control" placeholder="ค้นหาหมวดหมู่ เช่น CPU, RAM, SSD" value="{{ request.args.get('category', '') }}">
+    </div>
+    <div class="col-auto mt-sm-0 mt-2">
+      <button type="submit" class="btn btn-primary w-100">ค้นหา</button>
+    </div>
+  </form>
+</div>
+
+<!-- container หลัก -->
 <div class="container">
+
   <!-- หัวข้อหน้าแรก -->
   <div class="text-center my-4">
     <h2 class="fw-bold text-dark">🖥️ ร้านคอมพิวเตอร์มือสอง</h2>
@@ -15,13 +30,10 @@
       {% for product in items %}
         <div class="col-xl-3 col-md-4 col-sm-6 mb-4">
           <div class="card h-100 shadow-sm border-0">
-            <!-- รูปสินค้า -->
             <img src="{{ url_for('static', filename='images/' ~ product.image) }}"
                  class="card-img-top"
                  alt="{{ product.name }}"
                  style="height: 180px; object-fit: cover; border-top-left-radius: .5rem; border-top-right-radius: .5rem;">
-
-            <!-- ข้อมูลสินค้า -->
             <div class="card-body d-flex flex-column">
               <h5 class="card-title text-dark">{{ product.name }}</h5>
               <p class="card-text text-muted small">{{ product.description or 'ไม่มีรายละเอียดสินค้า' }}</p>
@@ -36,5 +48,6 @@
       {% endfor %}
     </div>
   {% endfor %}
+
 </div>
 {% endblock %}
