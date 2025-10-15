@@ -281,7 +281,8 @@ def admin_orders():
         conn = mysql.connector.connect(**db_config)
         cursor = conn.cursor(dictionary=True)
 
-        cursor.execute("SELECT * FROM orders ORDER BY id DESC")
+        # เรียงจากรหัสน้อยไปมาก
+        cursor.execute("SELECT * FROM orders ORDER BY id ASC")
         orders = cursor.fetchall()
     except Exception as e:
         flash('เกิดข้อผิดพลาดในการโหลดข้อมูลคำสั่งซื้อ', 'danger')
@@ -291,6 +292,7 @@ def admin_orders():
         if conn: conn.close()
 
     return render_template('admin/orders.html', orders=orders)
+
 
 # ✅ ลบคำสั่งซื้อ
 @app.route('/admin/order/delete/<int:order_id>', methods=['POST'])
