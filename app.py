@@ -1,14 +1,14 @@
-from flask import Flask, render_template, request, redirect, url_for, session, flash, abort
-from models.product_model import get_all_products, add_product, update_product, delete_product, get_products_by_category, get_product_by_id , get_product_image , get_all_products_1
-from config import db_config
 import os
-import mysql.connector
+import psycopg2 # เปลี่ยนจาก mysql.connector
+from psycopg2 import extras # เพิ่มสำหรับ DictCursor
+
+# นำเข้า get_db_connection() ด้วย
+from product_model import get_all_products, add_product, update_product, delete_product, get_products_by_category, get_product_by_id, get_product_image, get_all_products_1, get_db_connection
+from config import db_config
+
 from werkzeug.utils import secure_filename
 from werkzeug.security import check_password_hash
-from flask import render_template, request
-
-
-
+from flask import Flask, render_template, request, redirect, url_for, session, flash, abort
 
 app = Flask(__name__)
 app.secret_key = 'myshop123456'
@@ -38,7 +38,6 @@ def index():
         grouped_products[category].append(product)
 
     return render_template('index.html', grouped_products=grouped_products)
-
 
 
 @app.route('/product/<int:product_id>')
@@ -122,13 +121,18 @@ def checkout():
                     'quantity': quantity
                 })
         try:
-            conn = mysql.connector.connect(**db_config)
+            # 💡 เปลี่ยนเป็นเรียกใช้ฟังก์ชันการเชื่อมต่อ PostgreSQL
+            conn = get_db_connection() 
             cursor = conn.cursor()
+            
+            # ** PostgreSQL: ใช้ RETURNING id เพื่อดึง ID ที่เพิ่งสร้าง **
             cursor.execute(
-                "INSERT INTO orders (customer_name, customer_address, customer_phone, total_price) VALUES (%s, %s, %s, %s)",
+                "INSERT INTO orders (customer_name, customer_address, customer_phone, total_price) VALUES (%s, %s, %s, %s) RETURNING id",
                 (name, address, phone, total)
             )
-            order_id = cursor.lastrowid
+            # ดึง ID ที่สร้างขึ้นมา
+            order_id = cursor.fetchone()[0] 
+
             for item in products:
                 cursor.execute(
                     "INSERT INTO order_items (order_id, product_id, quantity, price) VALUES (%s, %s, %s, %s)",
@@ -159,8 +163,10 @@ def admin_login():
         password = request.form['password']
 
         try:
-            conn = mysql.connector.connect(**db_config)
-            cursor = conn.cursor(dictionary=True)
+            # 💡 เปลี่ยนเป็นเรียกใช้ฟังก์ชันการเชื่อมต่อ PostgreSQL
+            conn = get_db_connection()
+            # 💡 ใช้ DictCursor เพื่อให้ได้ผลลัพธ์เป็น Dictionary
+            cursor = conn.cursor(cursor_factory=extras.DictCursor) 
 
             # ดึงผู้ใช้จากฐานข้อมูล
             cursor.execute("SELECT * FROM admins WHERE username = %s AND password = %s", (username, password))
@@ -181,7 +187,6 @@ def admin_login():
                 conn.close()
 
     return render_template('admin/login.html')
-
 
 
 @app.route('/admin/logout')
@@ -247,8 +252,6 @@ def admin_update_product(product_id):
     return redirect(url_for('manage_products'))
 
 
-
-
 @app.route('/admin/product/delete/<int:product_id>', methods=['POST'])
 def admin_delete_product(product_id):
     if not session.get('admin_logged_in'):
@@ -278,15 +281,19 @@ def admin_orders():
         return redirect(url_for('admin_login'))
 
     try:
-        conn = mysql.connector.connect(**db_config)
-        cursor = conn.cursor(dictionary=True)
+        # 💡 เปลี่ยนเป็นเรียกใช้ฟังก์ชันการเชื่อมต่อ PostgreSQL
+        conn = get_db_connection()
+        # 💡 ใช้ DictCursor เพื่อให้ได้ผลลัพธ์เป็น Dictionary
+        cursor = conn.cursor(cursor_factory=extras.DictCursor) 
 
         # เรียงจากรหัสน้อยไปมาก
         cursor.execute("SELECT * FROM orders ORDER BY id ASC")
-        orders = cursor.fetchall()
+        orders_raw = cursor.fetchall()
+        orders = [dict(row) for row in orders_raw] # แปลง DictRow เป็น dict
     except Exception as e:
         flash('เกิดข้อผิดพลาดในการโหลดข้อมูลคำสั่งซื้อ', 'danger')
         orders = []
+        print(e)
     finally:
         if cursor: cursor.close()
         if conn: conn.close()
@@ -301,7 +308,8 @@ def admin_delete_order(order_id):
         return redirect(url_for('admin_login'))
 
     try:
-        conn = mysql.connector.connect(**db_config)
+        # 💡 เปลี่ยนเป็นเรียกใช้ฟังก์ชันการเชื่อมต่อ PostgreSQL
+        conn = get_db_connection() 
         cursor = conn.cursor()
         
         # ลบรายการสินค้าก่อน
@@ -324,4 +332,3 @@ def admin_delete_order(order_id):
 if __name__ == "__main__":
     port = int(os.environ.get("PORT", 5000))
     app.run(debug=False, host="0.0.0.0", port=port)
-
