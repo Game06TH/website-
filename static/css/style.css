@@ -1,8 +1,7 @@
 /* === พื้นหลังและตัวอักษรหลัก === */
 body {
-  background: linear-gradient(to right, #e0ecff, #ffffff);
   font-family: 'Prompt', sans-serif;
-  background-color: #f5f7fa;
+  background-color: #BADFDB;
 }
 
 h2 {
