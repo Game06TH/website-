@@ -24,7 +24,6 @@ def get_db_connection():
         print(f"PostgreSQL Connection Error: {e}")
         return None
 
-# --- ฟังก์ชันหลักทั้งหมด ถูกแปลงเป็น PostgreSQL ---
 
 def get_products_by_category():
     conn = get_db_connection()

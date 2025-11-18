@@ -11,16 +11,16 @@ import os
 db_config = {
     # HOST ภายในของ Render PostgreSQL
     # ใช้ค่าจริงจาก Render เป็น Default (สำหรับทดสอบในเครื่อง) หรือดึงจาก Env Var ใน Render
-    'host': os.environ.get('DB_HOST', 'dpg-d3nj8sidbo4c73d1h320-a'), # ใช้ Hostname ภายในจาก Render
+    'host': os.environ.get('DB_HOST', 'dpg-d4clivf5r7bs73ag5trg-a'), # ใช้ Hostname ภายในจาก Render
     
     # ชื่อผู้ใช้ (User)
     'user': os.environ.get('DB_USER', 'freedb_game1'), # ใช้ Username จาก Render
     
     # รหัสผ่าน
-    'password': os.environ.get('DB_PASSWORD', '8xgNPo8uZLr2Ch7DrfIjghxEBF4RPzUb'), # ใช้รหัสผ่านจริงจาก Render
+    'password': os.environ.get('DB_PASSWORD', 'nChpySPjY547GpNSkq4g4HmQfsv718aC'), # ใช้รหัสผ่านจริงจาก Render
     
     # ชื่อฐานข้อมูล (Database Name)
-    'database': os.environ.get('DB_NAME', 'freedb_gameth'), # ใช้ Database Name จาก Render
+    'database': os.environ.get('DB_NAME', 'freedb_gameth_hzr1'), # ใช้ Database Name จาก Render
     
     # Port มาตรฐานของ PostgreSQL
     'port': os.environ.get('DB_PORT', 5432) # Port มาตรฐาน 5432
