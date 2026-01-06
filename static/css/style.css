@@ -2,10 +2,12 @@
 body {
   font-family: 'Prompt', sans-serif;
   background-color: #BADFDB;
+  line-height: 1.6; /* เพิ่มระยะบรรทัดให้อ่านง่ายขึ้น */
 }
 
 h2 {
   color: #2c3e50;
+  font-size: 1.5rem; /* ปรับขนาดให้พอดีมือถือ */
 }
 
 h3 {
@@ -21,27 +23,20 @@ h3 {
 .custom-navbar {
   background: linear-gradient(to right, #1f1f1f, #2c2c2c);
   border-bottom: 3px solid #0dcaf0;
+  padding: 10px 15px; /* เพิ่ม Padding ให้กดง่ายขึ้น */
 }
 
 .navbar-brand {
-  font-size: 1.4rem;
+  font-size: 1.2rem; /* ลดขนาดลงเล็กน้อยในมือถือ */
   letter-spacing: 1px;
   color: #ffffff;
 }
 
-.navbar a.btn {
-  transition: 0.3s ease;
-}
-
-.navbar a.btn:hover {
-  transform: scale(1.05);
-  opacity: 0.9;
-}
-
 /* === ปุ่ม === */
 .btn {
-  font-size: 1.1rem;
+  font-size: 1rem;
   transition: all 0.3s ease-in-out;
+  padding: 10px 15px; /* ขยายพื้นที่กด */
 }
 
 .btn:hover {
@@ -49,20 +44,15 @@ h3 {
   box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
 }
 
-.btn-outline-primary, .btn-outline-danger {
-  border-radius: 6px;
-  border-width: 1.5px;
-}
-
+/* ปรับแต่งสำหรับมือถือจอเล็กสุดๆ */
 @media (max-width: 576px) {
-  .btn-lg {
-    font-size: 16px;
-    width: 100%;
+  .btn-lg, .btn {
+    width: 100%; /* ให้ปุ่มเต็มหน้าจอ */
     margin-bottom: 10px;
   }
 
   .d-flex.justify-content-between {
-    flex-direction: column;
+    flex-direction: column; /* เปลี่ยนจากแนวนอนเป็นแนวตั้ง */
     gap: 10px;
   }
 }
@@ -70,116 +60,65 @@ h3 {
 /* === ฟอร์มเพิ่ม/แก้ไขสินค้า === */
 .product-form {
   background-color: #f8f9fa;
-  padding: 20px;
+  padding: 15px; /* ลด Padding เล็กน้อย */
   border-radius: 10px;
   box-shadow: 0 4px 10px rgba(0, 0, 0, 0.06);
-  margin-bottom: 30px;
+  margin-bottom: 20px;
 }
 
-/* === ตารางสินค้า === */
+/* === ตารางสินค้า (สำคัญมากสำหรับมือถือ) === */
 .table-responsive {
   border-radius: 10px;
   overflow-x: auto;
+  -webkit-overflow-scrolling: touch; /* ให้เลื่อนตารางลื่นขึ้นใน iOS */
 }
 
-table th, table td {
-  vertical-align: middle;
-  font-size: 16px;
+table {
+  min-width: 600px; /* บังคับความกว้างขั้นต่ำเพื่อให้ตารางไม่เบียดกันจนอ่านไม่ออก */
 }
 
-.table thead th {
-  font-weight: bold;
-  font-size: 16px;
+/* === การ์ดสินค้า === */
+.card {
+  margin-bottom: 15px;
 }
 
-.action-buttons {
-  display: flex;
-  justify-content: center;
-  gap: 8px;
-}
-
-/* === กล่องล็อกอิน (login-box) === */
-.login-box {
-  border: 1px solid #ddd;
-  background-color: #ffffff;
-}
-
-@media (max-width: 768px) {
-  .login-box {
-    padding: 2rem 1.5rem;
-  }
-}
-
-/* === การ์ดสินค้า (เช่นหน้าแสดงสินค้า) === */
 .card img {
-  max-height: 220px;
+  height: 180px; /* ลดความสูงลงเล็กน้อย */
   object-fit: contain;
-}
-
-.card-title {
-  font-weight: bold;
-  font-size: 1.1rem;
-}
-
-.card-text {
-  font-size: 14px;
-  color: #444;
-}
-
-.card:hover {
-  transform: translateY(-4px);
-  transition: all 0.3s ease;
-  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.08);
+  padding: 10px;
 }
 
 /* === รูปภาพสินค้า === */
-.product-image {
-  width: 60px;
-  height: 60px;
-  object-fit: contain;
-  border-radius: 6px;
-  box-shadow: 0 0 3px rgba(0, 0, 0, 0.1);
-  max-width: 300pt;
-  max-height: 300px;
-  border: 1px solid #dee2e6;
-  margin-bottom: 20px;
-}
-
 .product-image-a {
+  width: 100%; /* ให้รูปกว้างเต็มจอในมือถือ */
   max-width: 300px;
-  max-height: 300px;
-  object-fit: contain;
-  border: 1px solid #dee2e6;
-  border-radius: 10px;
-  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.05);
-  margin-bottom: 20px;
+  height: auto;
+  display: block;
+  margin: 0 auto 20px auto; /* จัดกลาง */
 }
 
+/* === ส่วนของรายละเอียดสินค้า (Product Detail) === */
 @media (max-width: 768px) {
-  .product-image {
-    max-height: 300px;
-    margin-bottom: 15px;
+  .product-description {
+    font-size: 16px; /* ลดขนาดตัวอักษรลงจาก 20px เพื่อไม่ให้ใหญ่ไป */
+  }
+  
+  .product-title {
+    font-size: 1.4rem;
+    text-align: center; /* จัดกลางหัวข้อในมือถือ */
+  }
+
+  .product-price {
+    font-size: 1.2rem;
+    text-align: center;
   }
 }
 
-/* === ข้อมูลสินค้า === */
-.product-title {
-  font-weight: bold;
-  color: #0d6efd;
-}
-
-.product-description {
-  color: #6c757d;
-  margin-bottom: 1rem;
-  font-size: 20px;
-}
-
-.product-price {
-  color: #212529;
-  margin-bottom: 1.5rem;
-}
-
-.product-price span {
-  color: #dc3545;
-  font-weight: bold;
+/* === กล่องล็อกอิน === */
+.login-box {
+  border: 1px solid #ddd;
+  background-color: #ffffff;
+  padding: 2rem 1.5rem;
+  border-radius: 15px;
+  margin: 10px; /* เพิ่ม Margin เพื่อไม่ให้กล่องติดขอบจอ */
 }
