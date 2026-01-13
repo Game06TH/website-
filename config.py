@@ -11,17 +11,17 @@ import os
 db_config = {
     # HOST ภายในของ Render PostgreSQL
     # ใช้ค่าจริงจาก Render เป็น Default (สำหรับทดสอบในเครื่อง) หรือดึงจาก Env Var ใน Render
-    'host': os.environ.get('DB_HOST', 'dpg-d54es7uuk2gs73b9gp30-a'), # ใช้ Hostname ภายในจาก Render
+    'host': os.environ.get('DB_HOST', 'freedbgamethfmwb-tnk-86b0.e.aivencloud.com'), # ใช้ Hostname ภายในจาก Render
     
     # ชื่อผู้ใช้ (User)
-    'user': os.environ.get('DB_USER', 'freedb_game1'), # ใช้ Username จาก Render
+    'user': os.environ.get('DB_USER', 'avnadmin'), # ใช้ Username จาก Render
     
     # รหัสผ่าน
-    'password': os.environ.get('DB_PASSWORD', 'G0aeVp9CDAfh8GNzCdrW8aKAa0Z6jCO7'), # ใช้รหัสผ่านจริงจาก Render
+    'password': os.environ.get('DB_PASSWORD', 'AVNS_SHHbs1kPpUfU23Ni3OX'), # ใช้รหัสผ่านจริงจาก Render
     
     # ชื่อฐานข้อมูล (Database Name)
-    'database': os.environ.get('DB_NAME', 'freedb_gameth_fmwb'), # ใช้ Database Name จาก Render
+    'database': os.environ.get('DB_NAME', 'defaultdb'), # ใช้ Database Name จาก Render
     
     # Port มาตรฐานของ PostgreSQL
-    'port': os.environ.get('DB_PORT', 5432) # Port มาตรฐาน 5432
+    'port': os.environ.get('DB_PORT', 18016) # Port มาตรฐาน 5432
 }
