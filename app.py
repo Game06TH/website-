@@ -24,20 +24,39 @@ def allowed_file(filename):
 # ----------- USER ROUTES -----------
 @app.route('/')
 def index():
+    # 1. รายการหมวดหมู่ (ควรสะกดให้ตรงกับในฐานข้อมูลเพื่อให้จัดการง่าย)
+    categories = [
+        "CPU", "MAINBOARD", "RAM", "GPU", 
+        "SSD", "HDD", "PSU", "COOLER", 
+        "CASE", "MONITOR"
+    ]
+    
+    # 2. รับค่าจาก Dropdown (ถ้าไม่ได้เลือกจะเป็นค่าว่าง)
     search_category = request.args.get('category', '').strip().lower()
+    
     all_products = get_all_products_1()
-
-    # กลุ่มสินค้าแบบ manual ด้วย category
     grouped_products = {}
-    for product in all_products:
-        category = product['category'].strip()
-        if search_category and search_category not in category.lower():
-            continue  # ข้ามถ้าไม่ตรงกับที่ค้นหา
-        if category not in grouped_products:
-            grouped_products[category] = []
-        grouped_products[category].append(product)
 
-    return render_template('index.html', grouped_products=grouped_products)
+    for product in all_products:
+        # ดึงหมวดหมู่จากตัวสินค้าและแปลงเป็นตัวเล็กเพื่อใช้เช็คเงื่อนไข
+        product_cat = product.get('category', '').strip()
+        product_cat_lower = product_cat.lower()
+        
+        # 3. Logic การกรองข้อมูล:
+        # ถ้า search_category ไม่ว่าง และไม่ใช่คำว่า "ทั้งหมด" 
+        # ให้เช็คว่าหมวดหมู่ของสินค้าตรงกับที่เลือกมาหรือไม่
+        if search_category and search_category != "":
+            if search_category not in product_cat_lower:
+                continue  # ถ้าไม่ตรง ให้ข้ามสินค้านี้ไป
+
+        # 4. จัดกลุ่มสินค้าตามหมวดหมู่จริงของสินค้า
+        if product_cat not in grouped_products:
+            grouped_products[product_cat] = []
+        grouped_products[product_cat].append(product)
+
+    return render_template('index.html', 
+                           grouped_products=grouped_products, 
+                           categories=categories)
 
 
 @app.route('/product/<int:product_id>')

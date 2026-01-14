@@ -78,23 +78,71 @@ table {
 }
 
 /* === การ์ดสินค้า === */
-.card {
-  margin-bottom: 15px;
+/* === การปรับแต่งการ์ดสินค้าให้สั้นลงและเท่ากัน === */
+
+/* 1. คุมความสูงของชื่อสินค้า (แสดง 1 บรรทัด) */
+.card-title {
+    display: -webkit-box;
+    -webkit-line-clamp: 1; /* ตัดเหลือ 1 บรรทัด */
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+    font-size: 1.1rem;
+    font-weight: bold;
+    min-height: 1.4em; /* ล็อกความสูงไว้ไม่ให้กล่องยุบ */
+    margin-bottom: 8px;
 }
 
+/* 2. คุมรายละเอียดสินค้า (แสดง 2 บรรทัด) */
+.card-text.small {
+    display: -webkit-box;
+    -webkit-line-clamp: 2; /* ตัดเหลือ 2 บรรทัดแล้วใส่ ... */
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+    font-size: 0.85rem;
+    min-height: 2.6em; /* ล็อกความสูงให้เท่ากันทุก Card */
+    line-height: 1.3;
+    margin-bottom: 12px;
+}
+
+/* 3. ปรับแต่งตัว Card โดยรวม */
+.card {
+    border: none !important;
+    border-radius: 12px;
+    transition: transform 0.2s, box-shadow 0.2s;
+    background-color: #ffffff;
+}
+
+.card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 8px 20px rgba(0, 0, 0, 0.12) !important;
+}
+
+/* 4. ปรับขนาดรูปภาพในการ์ดให้สมดุล */
 .card img {
-  height: 180px; /* ลดความสูงลงเล็กน้อย */
-  object-fit: contain;
-  padding: 10px;
+    height: 160px; /* ลดลงเล็กน้อยจากเดิม 180px */
+    object-fit: contain;
+    padding: 15px;
+    background-color: #fcfcfc; /* เพิ่มพื้นหลังสีจางๆ ให้รูปดูเด่น */
+}
+
+/* 5. ปรับส่วนท้ายของการ์ด (ราคาและปุ่ม) */
+.card-body {
+    padding: 1.25rem;
+}
+
+.text-success.fw-bold {
+    font-size: 1.1rem;
+    margin-bottom: 10px;
 }
 
 /* === รูปภาพสินค้า === */
+/* ลบหรือคอมเมนต์ส่วนนี้ออก เพราะมันทำให้รูปในหน้า Detail เล็กไปด้วย */
 .product-image-a {
-  width: 100%; /* ให้รูปกว้างเต็มจอในมือถือ */
-  max-width: 300px;
-  height: auto;
-  display: block;
-  margin: 0 auto 20px auto; /* จัดกลาง */
+   max-width: 300px; 
+}
+.img-fluid {
+    max-width: 100%;
+    height: auto;
 }
 
 /* === ส่วนของรายละเอียดสินค้า (Product Detail) === */
@@ -111,6 +159,8 @@ table {
   .product-price {
     font-size: 1.2rem;
     text-align: center;
+    font-weight: bold;
+    color: #ff0000;
   }
 }
 
@@ -121,4 +171,32 @@ table {
   padding: 2rem 1.5rem;
   border-radius: 15px;
   margin: 10px; /* เพิ่ม Margin เพื่อไม่ให้กล่องติดขอบจอ */
+}
+/* --- 2. BANNER (แถบโปรโมชั่น) --- */
+.banner {
+    /* background-color: #f0f0f0;  เอาออกถ้าไม่อยากเห็นขอบเทา */
+    text-align: center;
+    margin-top: 15px;
+    border-radius: 5px; 
+    overflow: hidden; /* ช่วยให้รูปที่ล้นออกมาถูกตัดตามความโค้งของ border-radius */
+    padding: 0; /* เปลี่ยนเป็น 0 เพื่อให้รูปชิดขอบ */
+}
+
+.banner img {
+    width: 100%;    /* ให้รูปกว้างเท่ากับกล่อง */
+    height: auto;   /* ให้ความสูงปรับตามสัดส่วนรูป */
+    display: block; /* ลบช่องว่างเล็กๆ ใต้รูปภาพ */
+}
+/* แก้ไขในไฟล์ CSS ของคุณ */
+.card img {
+    height: auto; /* ให้ความสูงปรับตามจริง */
+    max-height: 600px; /* หรือตามความเหมาะสม */
+    object-fit: contain;
+    padding: 0; /* ลบ padding ออกเพื่อให้รูปชิดขอบกรอบ */
+}
+
+/* เพิ่มคลาสนี้เพื่อให้รูปในหน้า Detail ขยายใหญ่ที่สุด */
+.img-fluid.w-100 {
+    max-width: 100% !important;
+    height: auto !important;
 }
