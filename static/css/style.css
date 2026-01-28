@@ -200,3 +200,15 @@ table {
     max-width: 100% !important;
     height: auto !important;
 }
+.a-product-image{
+    width: 100px;        /* กำหนดความกว้างตามต้องการ */
+    height: 100px;       /* กำหนดความสูง */
+    object-fit: contain; /* ให้รูปอยู่ภายในกรอบโดยไม่เสียสัดส่วน */
+    border-radius: 5px;  /* แต่งขอบมนเล็กน้อย */
+    background-color: #f8f9fa;
+  }
+
+  /* ปรับแต่งตารางเพิ่มเติมให้ดูง่ายขึ้น */
+  .table td {
+    vertical-align: middle;
+  }

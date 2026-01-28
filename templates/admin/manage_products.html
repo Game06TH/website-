@@ -31,7 +31,7 @@
     </div>
   </div>
 </form>
-
+product-image
 
   <!-- ตารางสินค้า -->
   <div class="table-responsive product-table">
@@ -56,7 +56,7 @@
               <td><input name="category" value="{{ p.category }}" class="form-control"></td>
               <td>
                 {% if p.image %}
-                  <img src="{{ url_for('static', filename='images/' ~ p.image) }}" alt="product" class="product-image mb-2">
+                  <img src="{{ url_for('static', filename='images/' ~ p.image) }}" alt="product" class="a-product-image mb-2">
                 {% else %}
                   <span class="text-muted">ไม่มีรูป</span>
                 {% endif %}
